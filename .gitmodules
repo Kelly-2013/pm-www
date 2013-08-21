@@ -1,6 +1,3 @@
-[submodule "fabfile"]
-	path = fabfile
-	url = git://github.com/Precision-Mojo/django-heroku-fabfile.git
 [submodule "vsub_site/libs/bootstrap/vendor/bootstrap"]
 	path = vsub_site/libs/bootstrap/vendor/bootstrap
 	url = git://github.com/twitter/bootstrap.git
