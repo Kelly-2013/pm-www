@@ -1,6 +1,0 @@
-[submodule "vsub_site/libs/bootstrap/vendor/bootstrap"]
-	path = vsub_site/libs/bootstrap/vendor/bootstrap
-	url = git://github.com/twitter/bootstrap.git
-[submodule "vsub_site/libs/bootstrap/vendor/Font-Awesome"]
-	path = vsub_site/libs/bootstrap/vendor/Font-Awesome
-	url = git://github.com/FortAwesome/Font-Awesome.git
