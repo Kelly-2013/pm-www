@@ -1,24 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block header %}
-<div class="page-header">
-  <header class="hero-unit">
-    <h1>
-      Use what you know<br>
-      <small>Unity and Visual Studio finally together, at last.</small>
-    </h1>
-  </header>
-</div>
-{% endblock %}
 {% block content %}
-<div class="row">
-  {% blocktrans %}
-    <p>This is THE bridge between Visual Studio and Unity.</p>
-    <ul>
-      <li>This thing is awesome</li>
-      <li>It will change your life</li>
-    </ul>
-    <p>Buy it now!</p>
-  {% endblocktrans %}
-</div>
+<!--img id="ss-background" class="ss-background gd-scaleBackground1" style="position: fixed; background-color: rgb(255, 255, 255); left: 0px; top: -64px; width: 1227px; display: block; opacity: 0.46417600000000003;" src="{{ STATIC_URL }}img/bg.png"-->
+<img id="ss-background" class="ss-background gd-scaleBackground1" style="position: fixed; background-color: rgb(255, 255, 255); left: 0px; top: -64px; width: 1227px; display: block;" src="{{ STATIC_URL }}img/bg.png">
 {% endblock %}
