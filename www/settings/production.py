@@ -57,9 +57,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
 # See: https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 # Use the value set in the environment. Warning: The default value is '*' which
 # matches all hosts.
-# TODO: Split the ALLOWED_HOST environment variable if it's separated by colons.
 ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOSTS', '*'),
+    h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',')
 ]
 
 
