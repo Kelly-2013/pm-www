@@ -18,3 +18,13 @@ class UrlCorrectedS3BotoStorage(S3BotoStorage):
 
 class S3PipelineStorage(PipelineMixin, CachedFilesMixin, UrlCorrectedS3BotoStorage):
     pass
+
+
+# Specifies storage for uploaded files (media files).
+# From http://stackoverflow.com/a/10825691/904847
+#MediaS3BotoStorage = lambda: UrlCorrectedS3BotoStorage(location='media')
+class MediaS3BotoStorage(UrlCorrectedS3BotoStorage):
+    """Provides storage for uploaded files."""
+    def __init__(self, *args, **kwargs):
+        kwargs['location'] = 'media'
+        super(MediaS3BotoStorage, self).__init__(*args, **kwargs)

@@ -53,6 +53,16 @@ CACHES.update(memcacheify())
 SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
 
 
+## Allowed hosts configuration
+# See: https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
+# Use the value set in the environment. Warning: The default value is '*' which
+# matches all hosts.
+# TODO: Split the ALLOWED_HOST environment variable if it's separated by colons.
+ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOSTS', '*'),
+]
+
+
 ## Gunicorn configuration
 # See: http://gunicorn.org/run.html
 # See: https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/gunicorn/
@@ -69,12 +79,10 @@ INSTALLED_APPS += (
     'storages',
 )
 
-# The following values should be set via `heroku config'.
+
+## Amazon Web Services configuration
 # Values are based on the ones found here:
 # http://balzerg.blogspot.com/2012/09/staticfiles-on-heroku-with-django.html
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_S3_CALLING_FORMAT = ProtocolIndependentOrdinaryCallingFormat()
 AWS_QUERYSTRING_AUTH = False
 
@@ -90,6 +98,19 @@ STATICFILES_STORAGE = '%s.storage.S3PipelineStorage' % SITE_NAME
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admin-media-prefix
 # Note: This setting is still used in Django 1.4.
 ADMIN_MEDIA_PREFIX = STATIC_URL + '/admin/'
+
+
+## Media configuration
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+# The media root is located in a subfolder of the S3 bucket.
+MEDIA_ROOT = '/media/'
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+# The media URL is relative to the static files URL given above.
+MEDIA_URL = STATIC_URL + 'media/'
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#default-file-storage
+DEFAULT_FILE_STORAGE = '%s.storage.MediaS3BotoStorage' % SITE_NAME
 
 
 ## Template configuration
@@ -170,12 +191,17 @@ SENTRY_LOGGING = {
         },
         'raven': {
             'level': 'DEBUG',
-            'handlers': ['console'],
+            'handlers': ['console', 'sentry'],
             'propagate': False,
         },
         'sentry.errors': {
             'level': 'DEBUG',
             'handlers': ['console'],
+            'propagate': False,
+        },
+        'celery': {
+            'level': 'WARNING',
+            'handlers': ['sentry'],
             'propagate': False,
         },
     },

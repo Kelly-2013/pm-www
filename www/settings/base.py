@@ -43,7 +43,7 @@ TEMPLATE_DEBUG = DEBUG
 ## Admin and manager configuration
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
-    ('Marcus R. Brown', 'mrbrown@precision-mojo.com'),
+    ('Marcus R. Brown', 'mrbrown@precisionmojo.com'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -78,7 +78,8 @@ USE_TZ = True
 
 ## Media configuration
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = site_path('media/')
+# NOTE: The specified path is for development only (also see the urls module).
+MEDIA_ROOT = project_path('media/')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -109,7 +110,7 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 ## Secret key configuration
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = '4=py*2g1gl=cgjqcb4v*gr^&amp;5nxt2@d%b+!#l(2eeb#sa_0yxq'
+SECRET_KEY = 'aw!v(0r!#6k#jzv7+5i2mceb(p31*zs7uu(!!lr_nv#ue1qw3l'
 
 
 ## Template configuration
@@ -145,7 +146,6 @@ MIDDLEWARE_CLASSES = (
     # TODO: Disable GZIP middleware until we have a clean way of ensuring that
     # it's first in the list.
     #'django.middleware.gzip.GZipMiddleware',
-    'htmlmin.middleware.HtmlMinifyMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -191,10 +191,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # This app contains templates for django.contrib.admin, so it must precede it.
-    # django-admin-bootstrapped
-    'django_admin_bootstrapped',
-
     # See: https://docs.djangoproject.com/en/dev/ref/contrib/admin/
     'django.contrib.admin',
     # https://docs.djangoproject.com/en/dev/ref/contrib/admin/admindocs/
@@ -214,15 +210,13 @@ INSTALLED_APPS = (
     'robots',
     # django-celery
     'djcelery',
-    # django-social-auth
-    'social_auth',
     # django-bootstrap-toolkit
     'bootstrap_toolkit',
     # django-annoying
     'annoying',
 
-    # Project libraries
-    '%s' % SITE_NAME,
+    # Project libraries and applications
+    SITE_NAME,
     'libs.bootstrap',
 )
 
@@ -260,6 +254,13 @@ MESSAGE_TAGS = {
     messages.WARNING: '',
     messages.ERROR: 'alert-error',
 }
+
+
+## Amazon Web Services configuration
+# The following values should also be set via `heroku config'.
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 
 ## django-pipeline configuration
@@ -325,14 +326,8 @@ PIPELINE_COMPILERS = (
 # django-pipeline if env isn't on the path.
 #PIPELINE_LESS_BINARY = 'lessc'
 PIPELINE_YUI_BINARY = 'yuicompressor'
-
-
-## django-htmlmin configuration
-# See: http://pypi.python.org/pypi/django-htmlmin
-# TODO: Disable HTML minifying because it breaks the IE-specific code at the
-# top of base.html.
-HTML_MINIFY = False
-KEEP_COMMENTS_ON_MINIFYING = True
+PIPELINE_YUI_CSS_ARGUMENTS = ''
+PIPELINE_YUI_JS_ARGUMENTS = ''
 
 
 ## django-analytical configuration
